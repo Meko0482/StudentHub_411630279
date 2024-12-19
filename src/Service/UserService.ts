@@ -138,5 +138,56 @@ export class UserService extends Service {
         }
         return exist
     }
+    public async deleteByUserName(userName: string) {
+
+        const resp: resp<any> = {
+            code: 200,
+            message: "",
+            body: undefined
+        }
+
+        try {
+            const res = await studentsModel.deleteOne({ userName: userName });
+            resp.message = "success";
+            resp.body = res;
+        } catch (error) {
+            resp.message = error as string;
+            resp.code = 500;
+        }
+
+        return resp;
+    }
+
+    /**更新一筆用戶
+     * @param userName 用戶名
+     * @param name 新名字
+     * @returns 狀態
+     */
+    public async updateNameByUserName(userName: string, name: string) {
+        const resp: resp<DBResp<Student> | undefined> = {
+            code: 200,
+            message: "",
+            body: undefined,
+        };
+
+        try {
+            const user = await studentsModel.findOne({ userName });
+
+            if (user) {
+                user.name = name;
+                await user.save();
+                resp.body = user;
+                resp.message = "update success";
+            } else {
+                resp.code = 404;
+                resp.message = "user not found";
+            }
+        } catch (error) {
+            resp.code = 500;
+            resp.message = "server error";
+        }
+
+        return resp;
+    }
 
 }

@@ -34,5 +34,15 @@ export class UserRoute extends Route{
         this.router.post(`${this.url}insertOne`,(req, res)=>{
             this.Contorller.insertOne(req, res);
         })
+        this.router.delete(`${this.url}deleteByUserName`, (req, res) => {
+            this.Contorller.deleteByUserName(req, res);
+        })
+
+        /**
+         * 更新學生
+         */
+        this.router.put(`${this.url}updateNameByUserName`, (req, res) => {
+            this.Contorller.updateNameByUserName(req, res);
+        });
     }
 }

@@ -39,6 +39,24 @@ export class UserController extends Contorller {
         const resp = await this.service.insertOne(Request.body)
         Response.status(resp.code).send(resp)
     }
+    public async deleteByUserName(Request: Request, Response: Response) {
+        const userName = Request.body.userName || Request.query.userName;
+        if (!userName) {
+            return Response.status(400).send({ code: 400, message: "用戶名是必需的" });
+        }
+        const resp = await this.service.deleteByUserName(userName);
+        Response.status(resp.code).send(resp);
+    }
+    
+    public async updateNameByUserName(Request: Request, Response: Response) {
+        const { userName, name } = Request.body;
+        if (!userName || !name) {
+            return Response.status(400).send({ message: 'userName 和 name 是必需的參數' });
+        }
+    
+        const resp = await this.service.updateNameByUserName(userName, name);
+        Response.status(resp.code).send(resp);
+    }    
 
 
 }
